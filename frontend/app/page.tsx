@@ -1,20 +1,21 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import ReviewQueue from '@/components/ReviewQueue';
 import BulkGenerateButton from '@/components/BulkGenerateButton';
 import AnalyticsPanel from '@/components/AnalyticsPanel';
+import { fetchPosts } from '@/lib/api';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // Fetch posts from backend
-    fetchPosts();
+    fetchPostsData();
   }, []);
 
-  const fetchPosts = async () => {
+  const fetchPostsData = async () => {
     try {
-      const res = await fetch('/api/posts'); // This will be handled by our API route in Next.js? Actually, we'll use lib/api.ts
-      const data = await res.json();
+      const data = await fetchPosts();
       setPosts(data);
     } catch (err) {
       console.error('Failed to fetch posts:', err);

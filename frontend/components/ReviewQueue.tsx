@@ -21,7 +21,7 @@ export default function ReviewQueue({ posts, onUpdate }: ReviewQueueProps) {
 
   const handleApprove = async (postId: number) => {
     try {
-      await updatePost(postId, { status: 'approved' });
+      await updatePost(postId.toString(), { status: 'approved' });
       onUpdate();
     } catch (err) {
       console.error('Failed to approve post:', err);
@@ -30,7 +30,7 @@ export default function ReviewQueue({ posts, onUpdate }: ReviewQueueProps) {
 
   const handleReject = async (postId: number) => {
     try {
-      await updatePost(postId, { status: 'rejected' });
+      await updatePost(postId.toString(), { status: 'rejected' });
       onUpdate();
     } catch (err) {
       console.error('Failed to reject post:', err);
@@ -44,7 +44,7 @@ export default function ReviewQueue({ posts, onUpdate }: ReviewQueueProps) {
 
   const handleSaveEdit = async (postId: number) => {
     try {
-      await updatePost(postId, { content: editedContent, status: 'draft' });
+      await updatePost(postId.toString(), { content: editedContent, status: 'draft' });
       setEditingPostId(null);
       onUpdate();
     } catch (err) {

@@ -30,3 +30,31 @@ export const deletePost = async (postId: string) => {
   });
   if (!res.ok) throw new Error('Failed to delete post');
 };
+
+export type BulkGenerateRequest = {
+  platform: 'twitter' | 'linkedin' | 'threads';
+  brand_voice: string;
+  post_history?: string[];
+  days_ahead?: number;
+  model?: 'gemini' | 'claude' | 'nim';
+};
+
+export type GeneratedPost = {
+  id: number;
+  platform: string;
+  content: string;
+  brand_voice: string;
+  topic: string;
+  status: string;
+  scheduled_at: string;
+};
+
+export const bulkGeneratePosts = async (request: BulkGenerateRequest): Promise<GeneratedPost[]> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/generate/bulk`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  });
+  if (!res.ok) throw new Error('Failed to generate posts');
+  return res.json();
+};
