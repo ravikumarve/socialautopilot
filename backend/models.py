@@ -25,3 +25,19 @@ class PostFeedback(Base):
     action = Column(String)  # approved, edited, rejected
     edited_content = Column(Text, nullable=True)  # if edited, store the edited version
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class TrendCache(Base):
+    __tablename__ = "trend_cache"
+
+    id = Column(Integer, primary_key=True, index=True)
+    geo = Column(String, index=True)  # geographic region (e.g., "US", "UK")
+    hl = Column(String, index=True)   # language code (e.g., "en", "es")
+    trends_data = Column(Text)  # JSON string containing trend data
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    expires_at = Column(DateTime(timezone=True), nullable=False)  # cache expiration time
+    
+    def is_expired(self) -> bool:
+        """Check if the cache entry has expired"""
+        from datetime import datetime
+        return datetime.now(self.created_at.tzinfo) > self.expires_at
