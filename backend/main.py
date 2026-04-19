@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from backend.routers import posts, review, analytics, generate, trends
+from backend.routers import posts, review, analytics, generate, trends, export
 
 app = FastAPI(title="Social Autopilot API")
 
@@ -20,6 +20,7 @@ app.include_router(review.router, prefix="/review", tags=["review"])
 app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
 app.include_router(generate.router, prefix="/generate", tags=["generate"])
 app.include_router(trends.router, prefix="/trends", tags=["trends"])
+app.include_router(export.router, prefix="/export", tags=["export"])
 
 
 @app.get("/")
